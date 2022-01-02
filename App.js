@@ -6,14 +6,16 @@ import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import { IconButton, Icon, Center, NativeBaseProvider, extendTheme, HStack, Box } from "native-base"
 import Main from "./components/main"
 import { useState } from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+
 
 
 const Stack = createNativeStackNavigator();
 
 
 
-export default function App() {
+
+export default function AppP() {
 
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
   const month = new Date().getMonth() + 1
@@ -29,10 +31,8 @@ export default function App() {
   
   return (
     <>
-    <NativeBaseProvider>
-      
+      <NativeBaseProvider>
       <NavigationContainer>
-     
         <Stack.Navigator >
           <Stack.Screen name="n" options={{ title: `${month} / ${date} ${days[day]}`, 
           headerStyle: {
@@ -59,10 +59,10 @@ export default function App() {
               {()=><Main showCal={showCal}/>}
               </Stack.Screen>
         </Stack.Navigator>
-      </NavigationContainer>
+        </NavigationContainer>
 
-    </NativeBaseProvider>
-   
+    
+        </NativeBaseProvider>
 
       
 

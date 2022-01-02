@@ -2,6 +2,7 @@ import React from 'react';
 import { VStack, Center, Heading, NativeBaseProvider, View , Text, Checkbox, HStack, ScrollView, Box} from "native-base"
 import Cal from "./Cal"
 import { borderTopColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
+import Footer from './footer';
 
 
 const Main = ({showCal}) => {
@@ -157,6 +158,7 @@ const Main = ({showCal}) => {
            
             </VStack>
             </ScrollView>
+            <Footer />
         </View>
             </View>
         
