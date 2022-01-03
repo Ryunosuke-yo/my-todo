@@ -1,8 +1,21 @@
 import { View } from 'native-base';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
-const Cal = () => {
+
+const Cal = ({todos}) => {
+    // const [dotsColor, setDotsColor] = useState([])
+    
+    
+    // useEffect(()=>{
+    //     if(todos.length != 0){
+    //         const todosCon = todos[todos.length -1]
+    //         setDotsColor([...dotsColor, {key: `${todosCon.value}`, color: `${todosCon.color}`, selectedDotColor: 'blue'}])
+    
+    //     }
+    // }, [todos])
+
+
     return (
         
         <Calendar
@@ -20,6 +33,11 @@ const Cal = () => {
             calendarBackground: '#e3a1e3',
             arrowColor: 'orange',
         }}
+
+        markingType={'multi-dot'}
+        markedDates={{
+        '2022-01-05': {dots: todos, },
+  }}
        
         />
         

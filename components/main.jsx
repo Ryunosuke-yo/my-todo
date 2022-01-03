@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { VStack, Center, Heading, NativeBaseProvider, View , Text, Checkbox, HStack, ScrollView, Box, Input, IconButton, Icon, KeyboardAvoidingView} from "native-base"
 import Cal from "./Cal"
 import { borderTopColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
@@ -9,10 +9,12 @@ import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
 const Main = ({showCal}) => {
 
-    const cal = ()=> (
+    
+
+    const cal = (c)=> (
         <>
         <View  height="auto">
-        <Cal />
+        <Cal todos={c}/>
         </View>
         <Center>
         <View borderTopColor="#c79fc7" borderTopWidth="1" mt = "4" width="80%"></View>
@@ -25,6 +27,9 @@ const Main = ({showCal}) => {
     const [value, setValue] = useState("")
     const [id, setId] = useState(0)
     const [che, setChe] = useState(false)
+    
+
+       
 
     const handle = (t)=>{
         setValue(t)
@@ -33,7 +38,7 @@ const Main = ({showCal}) => {
     const onPressM = ()=>{
     setId(prev=>prev + 1)
     setValue("")
-    setTodos([...todos, {id : id, todo : value, completed : false}])
+    setTodos([...todos, {id : id, key : value, completed : false, color :"rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")"}])
     Keyboard.dismiss()
     }
 
@@ -46,20 +51,26 @@ const Main = ({showCal}) => {
        
     }
 
-
-    const mapTodo = todos.map(todo=>(
+    
+    const mapTodo = todos.map(todo=>
+        {
+          
+            return (
+                <HStack space="6" key={todo.id}>
+                <GestureRecognizer onSwipeLeft={()=>deleteTodo(todo.id)}>
+                    <Center w="170" h="70" bg={todo.color} rounded="md" shadow={2}>
+                        <HStack alignItems="center" space="5" >
+                        <Text fontSize="17" w="100" textAlign="center">{todo.key}</Text>
+                        <Checkbox size="md" value='black' colorScheme="rgb(227, 161, 227)" />          
+                    </HStack>
+                </Center>
+                </GestureRecognizer>
+            </HStack>
+            )
+        }
         
-        <HStack space="6" key={todo.id}>
-            <GestureRecognizer onSwipeLeft={()=>deleteTodo(todo.id)}>
-                <Center w="170" h="70" bg="#e3a1e3" rounded="md" shadow={2}>
-                    <HStack alignItems="center" space="5" >
-                    <Text fontSize="17" w="100" textAlign="center">{todo.todo}</Text>
-                    <Checkbox size="md" value='black' colorScheme="rgb(227, 161, 227)" />          
-                </HStack>
-            </Center>
-            </GestureRecognizer>
-        </HStack>
-    ))
+       
+    )
 
 
     
@@ -67,7 +78,7 @@ const Main = ({showCal}) => {
         <>
         
         <View bg="#e6bee6" pt="8" height="900">
-           {showCal ? cal() : null}
+           {showCal ? cal(todos) : null}
             <View height={showCal ? "370" : "700"}>
             <ScrollView _contentContainerStyle={
                 {
