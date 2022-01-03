@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, StatusBar, SafeAreaView, Button} fr
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
-import { IconButton, Icon, Center, NativeBaseProvider, extendTheme, HStack, Box } from "native-base"
+import { IconButton, Icon, Center, NativeBaseProvider, extendTheme, HStack, Box , KeyboardAvoidingView} from "native-base"
 import Main from "./components/main"
 import { useState } from 'react';
 
@@ -32,6 +32,7 @@ export default function AppP() {
   return (
     <>
       <NativeBaseProvider>
+      
       <NavigationContainer>
         <Stack.Navigator >
           <Stack.Screen name="n" options={{ title: `${month} / ${date} ${days[day]}`, 
@@ -60,7 +61,7 @@ export default function AppP() {
               </Stack.Screen>
         </Stack.Navigator>
         </NavigationContainer>
-
+            
     
         </NativeBaseProvider>
 
