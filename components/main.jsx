@@ -5,6 +5,7 @@ import { borderTopColor } from 'react-native/Libraries/Components/View/ReactNati
 import Footer from './footer';
 import { AntDesign } from '@expo/vector-icons';
 import { Alert } from 'react-native';
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
 const Main = ({showCal}) => {
 
@@ -20,29 +21,36 @@ const Main = ({showCal}) => {
         </>
     )
 
-    const [todos, setTodos] = useState([1])
+    const [todos, setTodos] = useState([])
     const [value, setValue] = useState("")
+    const [id, setId] = useState(0)
 
     const handle = (t)=>{
-        
         setValue(t)
     }
 
     const onPressM = ()=>{
-
-    setTodos([...todos, value])
+    setId(prev=>prev + 1)
     setValue("")
+    setTodos([...todos, {id : id, todo : value}])
+    }
+
+    const deleteTodo = (id)=>{
+        const filtered = todos.filter(todo=> todo.id != id)
+        setTodos(filtered)
     }
 
 
     const mapTodo = todos.map(todo=>(
-        <HStack space="6">
+        <HStack space="6" key={todo.id}>
+            <GestureRecognizer onSwipeLeft={()=>deleteTodo(todo.id)}>
         <Center w="170" h="70" bg="#e3a1e3" rounded="md" shadow={2}>
             <HStack alignItems="center" space="5">
-            <Text fontSize="17">{todo}</Text>
+            <Text fontSize="17">{todo.todo}</Text>
             <Checkbox size="md" value='black' colorScheme="rgb(227, 161, 227)" />          
             </HStack>
         </Center>
+            </GestureRecognizer>
         </HStack>
     ))
 
@@ -68,23 +76,6 @@ const Main = ({showCal}) => {
             
 
             <Footer onPress={onPressM} onChange={handle} value={value}/>
-            {/* <View height="66" pt="2">
-            <Center>
-            <Input width="300"  variant="outline" placeholder="Todo" size="lg" borderColor="#e6bee6" 
-            value={value}
-            onChange={handle} 
-            InputRightElement={
-                <IconButton 
-              icon ={ <Icon as={AntDesign} name="plus" size={23} color="white" ></Icon>}
-              _pressed = {{
-                _icon : {color : "#d9b0d9"},
-                bg : "white"
-              }}
-              />
-            }
-            />
-           </Center>
-        </View> */}
 
         </View>
             </View>

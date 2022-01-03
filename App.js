@@ -22,7 +22,7 @@ export default function AppP() {
   const date = new Date().getDate()
   const day = new Date().getDay()
 
-  const [showCal, setShowCal] = useState(false)
+  const [showCal, setShowCal] = useState(true)
   
   const toggle = ()=>{
     setShowCal(prev=> !prev)
