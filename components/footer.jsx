@@ -1,4 +1,4 @@
-import { Center, Input , View, IconButton, Icon, Button, KeyboardAvoidingView, Text, HStack } from 'native-base';
+import { Center, Input , View, IconButton, Icon, Button, KeyboardAvoidingView, Text, HStack, FormControl, Modal } from 'native-base';
 import { AntDesign, Fontisto } from '@expo/vector-icons';
 import React from 'react';
 import { useState } from 'react';
@@ -6,19 +6,29 @@ import { InputAccessoryView } from 'react-native';
 
 
 
+
+
 const Footer = ({onChange, value, onPress , showCal, addDue}) => {
 
-
+  const [date, setDate] = useState(new Date())
   const [v, setV] = useState("")
+  const [modal, setModal] = useState(false)
   const handle = (t)=>{
     alert(t)
     setV(t)
   }
 
+//   const addDue = ()=>{
+//     setModal(true)
+
+// }
+  
+
   // const onPress = ()=> alert(v)
     return (
       
         <View height="66" pt="2">
+            
             <Center>
             <Input width="300"  variant="outline" placeholder="Todo" size="lg" borderColor="rgba(10, 10, 10, 0)" onChangeText={onChange} value={value} borderBottomColor={showCal ? "#e6bee6" : "#ffe3ff"} inputAccessoryViewID='inp' textAlign="center"
             
@@ -29,6 +39,7 @@ const Footer = ({onChange, value, onPress , showCal, addDue}) => {
             </Center>
 
             <InputAccessoryView nativeID='inp'>
+              <FormControl>
               <Center bg="#e6bee6">
               
             <Input width="350"  variant="outline" placeholder="Todo" size="lg" borderColor="rgba(10, 10, 10, 0)" onChangeText={onChange} value={value}  inputAccessoryViewID='inp' textAlign="center" h="50" 
@@ -54,8 +65,12 @@ const Footer = ({onChange, value, onPress , showCal, addDue}) => {
             />
           }
             />
+         
             
             </Center>
+            </FormControl>
+
+            
             </InputAccessoryView>
         </View>
       

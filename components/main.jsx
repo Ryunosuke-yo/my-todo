@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { VStack, Center, Heading, NativeBaseProvider, View , Text, Checkbox, HStack, ScrollView, Box, Input, IconButton, Icon, KeyboardAvoidingView} from "native-base"
+import { VStack, Center, Heading, NativeBaseProvider, View , Text, Checkbox, HStack, ScrollView, Box, Input, IconButton, Icon, KeyboardAvoidingView, Modal, Button} from "native-base"
 import Cal from "./Cal"
 import { borderTopColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import Footer from './footer';
@@ -25,8 +25,11 @@ const Main = ({showCal}) => {
 
     const [todos, setTodos] = useState([])
     const [value, setValue] = useState("")
+    const [month, setMonth] = useState("")
+    const [date, setDate] = useState("")
     const [id, setId] = useState(0)
     const [che, setChe] = useState(false)
+    const [modal, setModal] = useState(false)
     
 
        
@@ -50,7 +53,8 @@ const Main = ({showCal}) => {
     }
 
     const addDue = ()=>{
-        alert("due")
+        setModal(true)
+
     }
 
     const deleteTodo = (id)=>{
@@ -86,7 +90,7 @@ const Main = ({showCal}) => {
 
     
     return (
-        <>
+    <>
         
         <View bg="#e6bee6" pt="8" height="900">
            {showCal ? cal(todos) : null}
@@ -106,11 +110,39 @@ const Main = ({showCal}) => {
           
             <Footer onPress={onPressM} onChange={handle} value={value} showCal={showCal} addDue={addDue}/>
         
-            
+            <Modal isOpen={modal} isClose={() => setModal(false)}>
+                <Modal.Content mt="-200">
+                <Modal.CloseButton onPress={() => {
+                    setModal(false)
+                    }}/>
+                <Center height="250" pt="5" pb="5">
+                <VStack space="10" >
+                <Input placeholder='Month' textAlign="center" w="40" borderColor="rgba(10, 10, 10, 0)" borderBottomColor="#f7e6f7"/>
+                <Input placeholder='Date' textAlign="center" w="40" borderColor="rgba(10, 10, 10, 0)" borderBottomColor="#f7e6f7"/>
+                </VStack>
+                <Button
+                    onPress={() => {
+                    setModal(false)
+                    }}
+                w="20"
+                mt="9"
+                bg="transparent"
+                variant="outline"
+                borderColor="transparent"
+                borderBottomColor="#f7e6f7"
+                >
+                    <Text  color="grey">
+                    Set Due
+                    </Text>
+                </Button>
+                </Center>
+
+                </Modal.Content>
+            </Modal>
         </View>
             </View>
-          
-      </>
+
+    </>
     );
 }
 
