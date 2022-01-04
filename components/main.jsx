@@ -38,8 +38,19 @@ const Main = ({showCal}) => {
     const onPressM = ()=>{
     setId(prev=>prev + 1)
     setValue("")
-    setTodos([...todos, {id : id, key : value, completed : false, color :"rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")"}])
+    setTodos([...todos, 
+        {id : id, 
+        key : value, 
+        completed : false, 
+        color :"rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")",
+        due : ""
+    },
+    ])
     Keyboard.dismiss()
+    }
+
+    const addDue = ()=>{
+        alert("due")
     }
 
     const deleteTodo = (id)=>{
@@ -93,7 +104,7 @@ const Main = ({showCal}) => {
             </ScrollView>
             
           
-            <Footer onPress={onPressM} onChange={handle} value={value} showCal={showCal}/>
+            <Footer onPress={onPressM} onChange={handle} value={value} showCal={showCal} addDue={addDue}/>
         
             
         </View>

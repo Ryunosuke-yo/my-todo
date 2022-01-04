@@ -1,12 +1,12 @@
 import { Center, Input , View, IconButton, Icon, Button, KeyboardAvoidingView, Text, HStack } from 'native-base';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Fontisto } from '@expo/vector-icons';
 import React from 'react';
 import { useState } from 'react';
 import { InputAccessoryView } from 'react-native';
 
 
 
-const Footer = ({onChange, value, onPress , showCal}) => {
+const Footer = ({onChange, value, onPress , showCal, addDue}) => {
 
 
   const [v, setV] = useState("")
@@ -42,6 +42,17 @@ const Footer = ({onChange, value, onPress , showCal}) => {
               onPress={onPress}
               />
             }
+
+            InputLeftElement={
+              <IconButton 
+            icon ={ <Icon as={Fontisto} name="date" size={23} color="white" ></Icon>}
+            _pressed = {{
+              _icon : {color : "#d9b0d9"},
+              bg : "white"
+            }}
+            onPress={addDue}
+            />
+          }
             />
             
             </Center>
