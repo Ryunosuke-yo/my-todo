@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
 
-const Cal = ({todos}) => {
+const Cal = ({todos, addDue}) => {
     // const [dotsColor, setDotsColor] = useState([])
     
     
@@ -14,6 +14,9 @@ const Cal = ({todos}) => {
     
     //     }
     // }, [todos])
+    const due = {...addDue}
+    const workout = {key: 'workout', color: 'green'};
+    const vacation = {key: 'workout', color: 'blue'}
 
 
     return (
@@ -35,9 +38,11 @@ const Cal = ({todos}) => {
         }}
 
         markingType={'multi-dot'}
-        markedDates={{
-        '2022-01-05': {dots: todos, },
-  }}
+        markedDates={
+            addDue[0]
+            // '2022-01-25': {dots: [vacation], },
+            // '2022-01-25': {dots: [workout], },
+    }
        
         />
         

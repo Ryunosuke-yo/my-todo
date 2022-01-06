@@ -8,7 +8,7 @@ import { InputAccessoryView } from 'react-native';
 
 
 
-const Footer = ({onChange, value, onPress , showCal, addDue}) => {
+const Footer = ({onChange, value, onPress , showCal, addDue, open}) => {
 
   const [date, setDate] = useState(new Date())
   const [v, setV] = useState("")
@@ -61,7 +61,7 @@ const Footer = ({onChange, value, onPress , showCal, addDue}) => {
               _icon : {color : "#d9b0d9"},
               bg : "white"
             }}
-            onPress={addDue}
+            onPress={open}
             />
           }
             />
