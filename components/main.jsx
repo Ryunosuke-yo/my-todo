@@ -35,7 +35,7 @@ const Main = ({showCal}) => {
     const [oneT, setOneT] = useState([])
     const [idToSet, setIdToSet] = useState()
     const [editMode, setEditMode] = useState(false)
-    
+    const [index, setIndex] = useState()
 
 
     const handle = (t)=>{
@@ -73,6 +73,26 @@ const Main = ({showCal}) => {
         Keyboard.dismiss()
     }
 
+    const onPressEdit = ()=>{
+        setTodos(
+            todos.map((todo, i)=>(
+                todo.id === idToSet ? {
+                        id : todo.id, 
+                        key : value, 
+                        completed : false, 
+                        color :todo.color,
+                        due : `2022-${monthV}-${dateV}`
+                    
+                } : todo
+                ))
+                )
+        
+        
+                setEditMode(false)
+                setValue("")
+                
+    }
+
     const modalOpen = ()=>{
         setModal(true)
 
@@ -96,17 +116,19 @@ const Main = ({showCal}) => {
     }
 
 
-    const editTodo = ()=>{
+    const editTodo = (id, i)=>{
         inpEditRef.current.focus()
         setEditMode(true)
+        setIdToSet(id)
+        setIndex(i)
     }
 
     
-    const mapTodo = todos.map(todo=>
+    const mapTodo = todos.map((todo, i)=>
         {
           
             return (
-                <Pressable onPress={editTodo}>
+                <Pressable onPress={()=>editTodo(todo.id, i)}>
                 <HStack space="6" key={todo.id} >
                 <GestureRecognizer onSwipeLeft={()=>deleteTodo(todo.id)} >
                     <Center w="170" h="70" bg={todo.color} rounded="md" shadow={2} >
@@ -147,7 +169,7 @@ const Main = ({showCal}) => {
                 {mapTodo}
             </VStack>
             </ScrollView>
-            <Footer onPress={onPressM} onChange={handle} value={value} showCal={showCal} addDue={oneT} open={modalOpen} inpRef={inpEditRef} editMode={editMode}/>
+            <Footer onPress={editMode ? onPressEdit : onPressM} onChange={handle} value={value} showCal={showCal} addDue={oneT} open={modalOpen} inpRef={inpEditRef} editMode={editMode}/>
         
             <Modal isOpen={modal} isClose={() => setModal(false)}>
                 <Modal.Content mt="-200">
