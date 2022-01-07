@@ -8,7 +8,7 @@ import { InputAccessoryView } from 'react-native';
 
 
 
-const Footer = ({onChange, value, onPress , showCal, addDue, open}) => {
+const Footer = ({onChange, value, onPress , showCal, addDue, open, inpRef, editMode}) => {
 
   const [date, setDate] = useState(new Date())
   const [v, setV] = useState("")
@@ -30,7 +30,7 @@ const Footer = ({onChange, value, onPress , showCal, addDue, open}) => {
         <View height="66" pt="2">
             
             <Center>
-            <Input width="300"  variant="outline" placeholder="Todo" size="lg" borderColor="rgba(10, 10, 10, 0)" onChangeText={onChange} value={value} borderBottomColor={showCal ? "#e6bee6" : "#ffe3ff"} inputAccessoryViewID='inp' textAlign="center"
+            <Input width="300"  variant="outline" placeholder="Todo" size="lg" borderColor="rgba(10, 10, 10, 0)" onChangeText={onChange} value={value} borderBottomColor={showCal ? "#e6bee6" : "#ffe3ff"} inputAccessoryViewID='inp' textAlign="center" ref={inpRef}
             
             />
             {/* <TextInput onChangeText ={handle} value={v}/>
@@ -42,7 +42,7 @@ const Footer = ({onChange, value, onPress , showCal, addDue, open}) => {
               <FormControl>
               <Center bg="#e6bee6">
               
-            <Input width="350"  variant="outline" placeholder="Todo" size="lg" borderColor="rgba(10, 10, 10, 0)" onChangeText={onChange} value={value}  inputAccessoryViewID='inp' textAlign="center" h="50" 
+            <Input width="350" variant="outline" placeholder={editMode ? "edit" : "Todo"} size="lg" borderColor="rgba(10, 10, 10, 0)" onChangeText={onChange} value={value}  inputAccessoryViewID='inp' textAlign="center" h="50" 
             InputRightElement={
                 <IconButton 
               icon ={ <Icon as={AntDesign} name="plus" size={23} color="white" ></Icon>}

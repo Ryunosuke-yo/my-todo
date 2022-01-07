@@ -14,10 +14,36 @@ const Cal = ({todos, addDue}) => {
     
     //     }
     // }, [todos])
-    const due = {...addDue}
+
+    // const dues = addDue.filter((due, i, self)=>{
+    //     self.includes(due.date) ? self.findIndex(e=>{
+    //         e.date == due.date
+    //     }) : due
+        
+    // })
+
+    // const dues = addDue.map((due, i, self)=>{
+    //     if(!self.includes(due.date)) {
+    //        return {[due.date ] : due.dotList}
+    //     } else {
+    //         const ii = self.findIndexOf(due.date === self[i].date)
+    //         return self[ii].dotList.dots.push(due.dotList.dots)
+    //     }
+    // }
+    // )
+       
+        
+
+        
+    
+    
+    
     const workout = {key: 'workout', color: 'green'};
     const vacation = {key: 'workout', color: 'blue'}
 
+    const dueOb = Object.assign({}, ...addDue.map((due)=>({
+        [due.date] : due.dotList
+    })))
 
     return (
         
@@ -39,7 +65,7 @@ const Cal = ({todos, addDue}) => {
 
         markingType={'multi-dot'}
         markedDates={
-            addDue[0]
+            dueOb
             // '2022-01-25': {dots: [vacation], },
             // '2022-01-25': {dots: [workout], },
     }

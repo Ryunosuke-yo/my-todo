@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import { VStack, Center, Heading, NativeBaseProvider, View , Text, Checkbox, HStack, ScrollView, Box, Input, IconButton, Icon, KeyboardAvoidingView, Modal, Button} from "native-base"
+import React, {useState, useEffect, useRef} from 'react';
+import { VStack, Center, Heading, NativeBaseProvider, View , Text, Checkbox, HStack, ScrollView, Box, Input, IconButton, Icon, KeyboardAvoidingView, Modal, Button, FormControl, Pressable} from "native-base"
 import Cal from "./Cal"
 import { borderTopColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import Footer from './footer';
-import { AntDesign } from '@expo/vector-icons';
-import { Alert , Keyboard, Platform} from 'react-native';
+import { AntDesign, Fontisto } from '@expo/vector-icons';
+import { Alert , Keyboard, Platform,  InputAccessoryView} from 'react-native';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
 const Main = ({showCal}) => {
@@ -33,6 +33,8 @@ const Main = ({showCal}) => {
     const [che, setChe] = useState(false)
     const [modal, setModal] = useState(false)
     const [oneT, setOneT] = useState([])
+    const [idToSet, setIdToSet] = useState()
+    const [editMode, setEditMode] = useState(false)
     
 
 
@@ -40,30 +42,35 @@ const Main = ({showCal}) => {
         setValue(t)
     }
 
+    const inpEditRef = useRef()
+
     const onPressM = ()=>{
-    const random = "rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")"
-    setId(prev=>prev + 1)
-    setValue("")
-    setMonthV("")
-    setDateV("")
-    setTodos([...todos, 
-        {id : id, 
-        key : value, 
-        completed : false, 
-        color :random,
-        due : `2022-${monthV}-${dateV}`
-    },
-    ])
-    setColor(random)
-    const dueee = `2022-${monthV}-${dateV}`
-    const ev = {key : value, color : random}
-    
-    setOneT([...oneT,{
-        [dueee]: {dots : [ev]}
-    }
+        const random = "rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")"
+        setId(prev=>prev + 1)
+        setValue("")
+        setMonthV("")
+        setDateV("")
+        setTodos([...todos, 
+            {id : id, 
+            key : value, 
+            completed : false, 
+            color :random,
+            due : `2022-${monthV}-${dateV}`
+        },
         ])
-    // alert(oneT[0].dueee.dots[0].color)
-    Keyboard.dismiss()
+        setColor(random)
+        const dueee = `2022-${monthV}-${dateV}`
+        const ev = {key : value, color : random}
+        
+        setOneT([...oneT,{
+            dotList: {dots : [ev]},
+            date : dueee,
+            id : id
+        }
+            ])
+            setEditMode(false)
+        // alert(oneT[0].dueee.dots[0].color)
+        Keyboard.dismiss()
     }
 
     const modalOpen = ()=>{
@@ -74,6 +81,9 @@ const Main = ({showCal}) => {
     const deleteTodo = (id)=>{
         const filtered = todos.filter(todo=> todo.id != id)
         setTodos(filtered)
+        
+        const filteredOne = oneT.filter(one=>one.id != id)
+        setOneT(filteredOne)
     }
 
     const monthChange = (e)=>{
@@ -85,8 +95,10 @@ const Main = ({showCal}) => {
         setDateV(e)
     }
 
-    const handleComp = (id)=>{
-       
+
+    const editTodo = ()=>{
+        inpEditRef.current.focus()
+        setEditMode(true)
     }
 
     
@@ -94,16 +106,22 @@ const Main = ({showCal}) => {
         {
           
             return (
-                <HStack space="6" key={todo.id}>
-                <GestureRecognizer onSwipeLeft={()=>deleteTodo(todo.id)}>
-                    <Center w="170" h="70" bg={todo.color} rounded="md" shadow={2}>
+                <Pressable onPress={editTodo}>
+                <HStack space="6" key={todo.id} >
+                <GestureRecognizer onSwipeLeft={()=>deleteTodo(todo.id)} >
+                    <Center w="170" h="70" bg={todo.color} rounded="md" shadow={2} >
                         <HStack alignItems="center" space="5" >
+                       
+                        {/* <Input w="100" fontSize="17" color="white" textAlign="center" borderColor="transparent" inputAccessoryViewID='inp' 
+                        onFocus={editTodo}>{todo.key}</Input> */}
+                      
                         <Text fontSize="17" w="100" textAlign="center">{todo.key}</Text>
                         <Checkbox size="md" value='black' colorScheme="rgb(227, 161, 227)" />          
                     </HStack>
                 </Center>
                 </GestureRecognizer>
             </HStack>
+                </Pressable>
             )
         }
         
@@ -129,7 +147,7 @@ const Main = ({showCal}) => {
                 {mapTodo}
             </VStack>
             </ScrollView>
-            <Footer onPress={onPressM} onChange={handle} value={value} showCal={showCal} addDue={oneT} open={modalOpen}/>
+            <Footer onPress={onPressM} onChange={handle} value={value} showCal={showCal} addDue={oneT} open={modalOpen} inpRef={inpEditRef} editMode={editMode}/>
         
             <Modal isOpen={modal} isClose={() => setModal(false)}>
                 <Modal.Content mt="-200">
@@ -160,8 +178,16 @@ const Main = ({showCal}) => {
 
                 </Modal.Content>
             </Modal>
+
+            {/* <InputAccessoryView nativeID='inp'>
+                <Input>ai</Input>
+            </InputAccessoryView> */}
         </View>
+            
             </View>
+
+
+
 
     </>
     );
