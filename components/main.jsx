@@ -1,10 +1,10 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { VStack, Center, Heading, NativeBaseProvider, View , Text, Checkbox, HStack, ScrollView, Box, Input, IconButton, Icon, KeyboardAvoidingView, Modal, Button, FormControl, Pressable} from "native-base"
+import { VStack, Center, Heading, NativeBaseProvider, View , Text, Checkbox, HStack, ScrollView, Box, Input, IconButton, Icon, KeyboardAvoidingView, Modal, Button, FormControl} from "native-base"
 import Cal from "./Cal"
 import { borderTopColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import Footer from './footer';
 import { AntDesign, Fontisto } from '@expo/vector-icons';
-import { Alert , Keyboard, Platform,  InputAccessoryView} from 'react-native';
+import { Alert , Keyboard, Platform,  InputAccessoryView, Pressable} from 'react-native';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
 const Main = ({showCal}) => {
@@ -69,7 +69,6 @@ const Main = ({showCal}) => {
         }
             ])
             setEditMode(false)
-        // alert(oneT[0].dueee.dots[0].color)
         Keyboard.dismiss()
     }
 
@@ -86,11 +85,21 @@ const Main = ({showCal}) => {
                 } : todo
                 ))
                 )
+
+                setOneT(
+                    oneT.map((one, i)=>(
+                        one.id === idToSet ? {
+                            dotList: one.dotList,
+                            date : `2022-${monthV}-${dateV}`,
+                            id : one.id
+                        } : one
+                    ))
+                )
         
         
                 setEditMode(false)
                 setValue("")
-                
+                Keyboard.dismiss()
     }
 
     const modalOpen = ()=>{
@@ -176,34 +185,35 @@ const Main = ({showCal}) => {
                 <Modal.CloseButton onPress={() => {
                     setModal(false)
                     }}/>
+                <FormControl>
                 <Center height="250" pt="5" pb="5">
                 <VStack space="10" >
                 <Input placeholder='Month' textAlign="center" w="40" borderColor="rgba(10, 10, 10, 0)" borderBottomColor="#f7e6f7" value={monthV} onChangeText={monthChange}/>
                 <Input placeholder='Date' textAlign="center" w="40" borderColor="rgba(10, 10, 10, 0)" borderBottomColor="#f7e6f7" value={dateV} onChangeText={dateChange}/>
                 </VStack>
-                <Button
-                    onPress={() => {
-                    setModal(false)
-                    }}
-                w="20"
-                mt="9"
-                bg="transparent"
-                variant="outline"
-                borderColor="transparent"
-                borderBottomColor="#f7e6f7"
-                >
-                    <Text  color="grey">
-                    Set Due
-                    </Text>
-                </Button>
+                
+                    <Button
+                        onPress={() => {
+                        setModal(false)
+                        
+                        }}
+                    w="20"
+                    mt="9"
+                    bg="transparent"
+                    variant="outline"
+                    borderColor="transparent"
+                    borderBottomColor="#f7e6f7"
+                    >
+                        <Text  color="grey">
+                        Set Due
+                        </Text>
+                    </Button>
+                
                 </Center>
-
+                </FormControl>
                 </Modal.Content>
             </Modal>
 
-            {/* <InputAccessoryView nativeID='inp'>
-                <Input>ai</Input>
-            </InputAccessoryView> */}
         </View>
             
             </View>
