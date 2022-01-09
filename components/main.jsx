@@ -11,10 +11,10 @@ const Main = ({showCal}) => {
 
     
 
-    const cal = (c, o)=> (
+    const cal = (c, o, current)=> (
         <>
         <View  height="auto">
-        <Cal todos={c} addDue={o}/>
+        <Cal todos={c} addDue={o} current={current}/>
         </View>
         <Center>
         <View borderTopColor="#c79fc7" borderTopWidth="1" mt = "4" width="80%"></View>
@@ -36,6 +36,7 @@ const Main = ({showCal}) => {
     const [idToSet, setIdToSet] = useState()
     const [editMode, setEditMode] = useState(false)
     const [index, setIndex] = useState()
+    const [current, setCurrent] = useState()
 
 
     const handle = (t)=>{
@@ -45,6 +46,8 @@ const Main = ({showCal}) => {
     const inpEditRef = useRef()
 
     const onPressM = ()=>{
+        const dueee = `2022-${monthV}-${dateV}`
+        setCurrent(dueee)
         const random = "rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")"
         setId(prev=>prev + 1)
         setValue("")
@@ -59,7 +62,6 @@ const Main = ({showCal}) => {
         },
         ])
         setColor(random)
-        const dueee = `2022-${monthV}-${dateV}`
         const ev = {key : value, color : random}
         
         setOneT([...oneT,{
@@ -69,6 +71,7 @@ const Main = ({showCal}) => {
         }
             ])
             setEditMode(false)
+       
         Keyboard.dismiss()
     }
 
@@ -99,6 +102,8 @@ const Main = ({showCal}) => {
         
                 setEditMode(false)
                 setValue("")
+                setMonthV("")
+                setDateV("")
                 Keyboard.dismiss()
     }
 
@@ -142,10 +147,6 @@ const Main = ({showCal}) => {
                 <GestureRecognizer onSwipeLeft={()=>deleteTodo(todo.id)} >
                     <Center w="170" h="70" bg={todo.color} rounded="md" shadow={2} >
                         <HStack alignItems="center" space="5" >
-                       
-                        {/* <Input w="100" fontSize="17" color="white" textAlign="center" borderColor="transparent" inputAccessoryViewID='inp' 
-                        onFocus={editTodo}>{todo.key}</Input> */}
-                      
                         <Text fontSize="17" w="100" textAlign="center">{todo.key}</Text>
                         <Checkbox size="md" value='black' colorScheme="rgb(227, 161, 227)" />          
                     </HStack>
@@ -165,7 +166,7 @@ const Main = ({showCal}) => {
     <>
         
         <View bg="#e6bee6" pt="8" height="900">
-           {showCal ? cal(todos, oneT) : null}
+           {showCal ? cal(todos, oneT, current) : null}
             <View height={showCal ? "370" : "700"}>
             <ScrollView _contentContainerStyle={
                 {
@@ -178,7 +179,7 @@ const Main = ({showCal}) => {
                 {mapTodo}
             </VStack>
             </ScrollView>
-            <Footer onPress={editMode ? onPressEdit : onPressM} onChange={handle} value={value} showCal={showCal} addDue={oneT} open={modalOpen} inpRef={inpEditRef} editMode={editMode}/>
+            <Footer onPress={editMode ? onPressEdit : onPressM} onChange={handle} value={value} showCal={showCal} addDue={oneT} open={modalOpen} inpRef={inpEditRef} editMode={editMode} />
         
             <Modal isOpen={modal} isClose={() => setModal(false)}>
                 <Modal.Content mt="-200">

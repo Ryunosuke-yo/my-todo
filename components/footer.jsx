@@ -17,14 +17,6 @@ const Footer = ({onChange, value, onPress , showCal, addDue, open, inpRef, editM
     alert(t)
     setV(t)
   }
-
-//   const addDue = ()=>{
-//     setModal(true)
-
-// }
-  
-
-  // const onPress = ()=> alert(v)
     return (
       
         <View height="66" pt="2">
@@ -33,9 +25,6 @@ const Footer = ({onChange, value, onPress , showCal, addDue, open, inpRef, editM
             <Input width="300"  variant="outline" placeholder="Todo" size="lg" borderColor="rgba(10, 10, 10, 0)" onChangeText={onChange} value={value} borderBottomColor={showCal ? "#e6bee6" : "#ffe3ff"} inputAccessoryViewID='inp' textAlign="center" ref={inpRef}
             
             />
-            {/* <TextInput onChangeText ={handle} value={v}/>
-            <Button onPress={onPress}>a</Button> */}
-           
             </Center>
 
             <InputAccessoryView nativeID='inp'>
