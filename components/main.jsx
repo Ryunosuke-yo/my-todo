@@ -32,7 +32,7 @@ const Main = ({showCal}) => {
     const [id, setId] = useState(0)
     const [che, setChe] = useState(false)
     const [modal, setModal] = useState(false)
-    const [oneT, setOneT] = useState([])
+    const [oneT, setOneT] = useState({})
     const [idToSet, setIdToSet] = useState()
     const [editMode, setEditMode] = useState(false)
     const [index, setIndex] = useState()
@@ -64,12 +64,24 @@ const Main = ({showCal}) => {
         setColor(random)
         const ev = {key : value, color : random}
         
-        setOneT([...oneT,{
-            dotList: {dots : [ev]},
-            date : dueee,
-            id : id
-        }
-            ])
+        setOneT(()=>{
+            if(dueee in oneT){
+                return {
+                    ...oneT,
+                    [dueee] : {
+                        dots : [...oneT[dueee].dots, ev]
+                    }
+                }
+            } else {
+                return {
+                    ...oneT,
+                    [dueee] : {
+                        dots : [ev]
+                    }
+                }
+            }
+        })
+
             setEditMode(false)
        
         Keyboard.dismiss()
