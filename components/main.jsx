@@ -101,15 +101,7 @@ const Main = ({showCal}) => {
                 ))
                 )
 
-                setOneT(
-                    oneT.map((one, i)=>(
-                        one.id === idToSet ? {
-                            dotList: one.dotList,
-                            date : `2022-${monthV}-${dateV}`,
-                            id : one.id
-                        } : one
-                    ))
-                )
+                
         
         
                 setEditMode(false)
@@ -124,12 +116,17 @@ const Main = ({showCal}) => {
 
     }
 
-    const deleteTodo = (id)=>{
+    const deleteTodo = (id, date, value)=>{
         const filtered = todos.filter(todo=> todo.id != id)
         setTodos(filtered)
         
-        const filteredOne = oneT.filter(one=>one.id != id)
-        setOneT(filteredOne)
+        setOneT({
+            ...oneT,
+            [date] : {
+                dots : oneT[date].dots.filter(el => el.key != value)
+            }
+        })
+        
     }
 
     const monthChange = (e)=>{
@@ -156,7 +153,7 @@ const Main = ({showCal}) => {
             return (
                 <Pressable onPress={()=>editTodo(todo.id, i)}>
                 <HStack space="6" key={todo.id} >
-                <GestureRecognizer onSwipeLeft={()=>deleteTodo(todo.id)} >
+                <GestureRecognizer onSwipeLeft={()=>deleteTodo(todo.id,todo.due, todo.key)} >
                     <Center w="170" h="70" bg={todo.color} rounded="md" shadow={2} >
                         <HStack alignItems="center" space="5" >
                         <Text fontSize="17" w="100" textAlign="center">{todo.key}</Text>
